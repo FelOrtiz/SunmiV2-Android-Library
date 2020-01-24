@@ -37,12 +37,12 @@ Here is a list of the functions that have been implementes on the Library using 
 | `getPrinterModal()`| Get printer interface (print head size) |
 | `getServiceVersion()`| Get the printer service version number | 
 | `getPrintedLength(SunmiCallback cb)`| Get the print head print length |
-| `getFirmwareStatus()` | Get the printer firmware status. Returns: 0--unknow， A5--bootloader, C3--print |
+| `getFirmwareStatus()` | Get the printer firmware status. Returns: `0`is unknow，`A5`is bootloader, `C3` is print |
 | `printerSelfChecking()` | The printer will print a self-test page |
 | `getPrinterVersion()` |  Get printer firmware version number |
 | `lineWrap(int n, SunmiCallback cb)` | Printer feeds `n` numbers of lines  |
 | `sendRAWData(byte[] data, SunmiCallback cb)` | Send epson instruction commands (ESC/POS) as `byte[]`  |
-| `runRAWData(int[] decimals, SunmiCallback cb)` | Send epson instruction commands (ESC/POS) as `int[]` (helpfull for JS Frameworks) |
+| `runRAWData(int[] decimals, SunmiCallback cb)` | Send epson instruction commands (ESC/POS) as `int[]` (helpful for JS Frameworks) |
 | `setAlignment(int a, SunmiCallback cb)` | Set alignment mode where `0` is left, `1` is center and `2` is right |
 | `setFontName(String typeface, SunmiCallback callback)` | Set printer fontname |
 | `setFontSize(float fontSize, SunmiCallback callback)` | Set printer font size |
@@ -58,6 +58,25 @@ Here is a list of the functions that have been implementes on the Library using 
 | `exitPrinterBuffer(boolean commit, SunmiCallback callback)` | Exit buffer mode. `commit`: whether to print out the contents of the buffer |
 | `printBitmapCustom(Bitmap bitmap, int type, SunmiCallback callback) ` | Print a custom bitmap picture. `bitmap`: image bitmap object (maximum width of `384` pixels, images over 1M cannot be printed). `type`: There are currently two printing methods (`0` means same as printBitmap. `1` means black and white picture with threshold 200, gray picture) |
 
+### Some Helpful ESC/POS commands
+
+You can apply any ESC/POS, here is some example how to use it (in decimals):
+
+##### Bolding text
+
+```typescript
+public setTextBold(bold: boolean = true): void {
+    this.printer.runRAWData([27, 69, bold ? 1 : 0], null);
+}
+```
+
+##### Inverting White/Black
+
+```typescript
+public setInvertedWhiteBlack(inverted: boolean = true): void {
+    this.printer.runRAWData([29, 66, inverted ? 1 : 0], null);
+}
+```
 ---
 # License
 MIT
